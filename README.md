@@ -60,7 +60,7 @@ From command line, run
 
 `ZdiscAsimovCowan(s, b, db=0)` : Computes <img src="https://latex.codecogs.com/gif.latex?Z^\textrm{Cowan}_\textrm{disc}"> given `s`, true background mean `b`, and background uncertainty `db`.
 
-`ZexclAsimovCowan(s, b, db=0)` :  Computes <img src="https://latex.codecogs.com/gif.latex?Z^\textrm{KM}_\textrm{excl}"> given `s`, true background mean `b`, and background uncertainty `db`.
+`ZexclAsimovKM(s, b, db=0)` :  Computes <img src="https://latex.codecogs.com/gif.latex?Z^\textrm{KM}_\textrm{excl}"> given `s`, true background mean `b`, and background uncertainty `db`.
 
 **Note: The true background mean `b` is, in principle, unknown if background uncertainty `db > 0`.**
 

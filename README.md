@@ -4,7 +4,7 @@
 
 Python tools to compute the **exact Asimov significance** <img src="https://latex.codecogs.com/gif.latex?Z^\textrm{A}"> advocated in Reference [1] as the standard significance measure for projected exclusions and discovery sensitivities in counting experiments, both when the background is known and when it is subject to some uncertainty.
 
-**(The documentation of all functions in this package can also be accessed using the python help funtion)**
+**(The documentation of all functions in this package can also be accessed using the python help function)**
 
 ## Installation
 
@@ -27,9 +27,9 @@ From command line, run
 
 <img src="https://latex.codecogs.com/gif.latex?P(Z_\textrm{disc}>Z)"> or <img src="https://latex.codecogs.com/gif.latex?P(Z_\textrm{excl}>Z)"> : Probability of obtaining <img src="https://latex.codecogs.com/gif.latex?Z_\textrm{disc}"> or <img src="https://latex.codecogs.com/gif.latex?Z_\textrm{excl}"> greater than a certain <img src="https://latex.codecogs.com/gif.latex?Z"> of choice, in a large number of pseudo-experiments simulated for discovery or exclusion case
  
-<img src="https://latex.codecogs.com/gif.latex?Z^\textrm{Cowan}_\textrm{disc}"> : Asimov approximation to <img src="https://latex.codecogs.com/gif.latex?Z^\textrm{med}"> for the discovery case, obtained in Ref. [2], based on a likelihood ratio method
+<img src="https://latex.codecogs.com/gif.latex?Z^\textrm{CCGV}_\textrm{disc}"> : Asimov approximation to <img src="https://latex.codecogs.com/gif.latex?Z^\textrm{med}"> for the discovery case, obtained in Refs. [2], [3], based on a likelihood ratio method
 
-<img src="https://latex.codecogs.com/gif.latex?Z^\textrm{KM}_\textrm{excl}"> : Asimov approximation to <img src="https://latex.codecogs.com/gif.latex?Z^\textrm{med}"> for the exclusion case, obtained in Ref. [3], based on a likelihood ratio method
+<img src="https://latex.codecogs.com/gif.latex?Z^\textrm{KM}_\textrm{excl}"> : Asimov approximation to <img src="https://latex.codecogs.com/gif.latex?Z^\textrm{med}"> for the exclusion case, obtained in Ref. [4], based on a likelihood ratio method
 
 ## Expected significances with Zstats package
 
@@ -50,24 +50,32 @@ From command line, run
 
 ### Functions
 
-`Zdisc(s, bhat, dbhat=0, asimov_only=True, Zcriteria=5.0, more_info=False)` : Computes the expected significance for discovery given `s`, `b`, and `dbhat`. 
+`Zdisc(s, bhat, dbhat=0, asimov_only=True, Zcriteria=5.0, more_info=False)` : Computes the expected significance for discovery given `s`, `bhat`, and `dbhat`. 
 
-`Zexcl(s, bhat, dbhat=0, asimov_only=True, Zcriteria=1.645, more_info=False)` : Computes the expected significance for exclusion given `s`, `b`, and `dbhat`.
+`Zexcl(s, bhat, dbhat=0, asimov_only=True, Zcriteria=1.645, more_info=False)` : Computes the expected significance for exclusion given `s`, `bhat`, and `dbhat`.
 
 **More information about each of the input parameter is given above**
 
 ### Other functions
 
-`ZdiscAsimovCowan(s, b, db=0)` : Computes <img src="https://latex.codecogs.com/gif.latex?Z^\textrm{Cowan}_\textrm{disc}"> given `s`, true background mean `b`, and background uncertainty `db`.
+`ZdiscAsimovCCGV(s, b, db=0)` : Computes <img src="https://latex.codecogs.com/gif.latex?Z^\textrm{CCGV}_\textrm{disc}"> given `s`, true background mean `b`, and background uncertainty `db`.
 
 `ZexclAsimovKM(s, b, db=0)` :  Computes <img src="https://latex.codecogs.com/gif.latex?Z^\textrm{KM}_\textrm{excl}"> given `s`, true background mean `b`, and background uncertainty `db`.
 
 **Note: The true background mean `b` is, in principle, unknown if background uncertainty `db > 0`.**
 
+## Examples
+
+To illustrate the usage of the code, this repository also has short programs `makefig*.py` in the `examples` directory that produce the data in each of the 8 figures in Reference [1].
+
+**Note: Each computation with functions `Zdisc`, `Zexcl`, particularly when `asimov_only` is set to `False`, takes a lot more time for the uncertain background case.**
+
 ## References
 
-[1]: P. N. Bhattiprolu, S. P. Martin, J. D. Wells, "Criteria for projected discovery and exclusion sensitivities of counting experiments," arXiv: 2009.***** [physics.data-an].
+[1]: P. N. Bhattiprolu, S. P. Martin, J. D. Wells, “Criteria for projected discovery and exclusion sensitivities of counting experiments,” arXiv: 2009.***** [physics.data-an].
 
-[2]: G. Cowan, “Two developments in tests for discovery: use of weighted Monte Carlo events and an improved measure”, Progress on Statistical Issues in Searches,” SLAC, June 4 - 6, 2012.
+[2]: G. Cowan, K. Cranmer, E. Gross and O. Vitells, “Asymptotic formulae for likelihood-based tests of new physics,” Eur. Phys. J. C 71, 1554 (2011) [arXiv:1007.1727 [physics.data-an]].
 
-[3]: N. Kumar and S. P. Martin, “Vectorlike Leptons at the Large Hadron Collider,” Phys. Rev. D 92, no.11, 115018 (2015) [arXiv:1510.03456 [hep-ph]].
+[3]: G. Cowan, “Two developments in tests for discovery: use of weighted Monte Carlo events and an improved measure”, Progress on Statistical Issues in Searches,” SLAC, June 4 - 6, 2012.
+
+[4]: N. Kumar and S. P. Martin, “Vectorlike Leptons at the Large Hadron Collider,” Phys. Rev. D 92, no.11, 115018 (2015) [arXiv:1510.03456 [hep-ph]].

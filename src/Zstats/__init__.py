@@ -495,7 +495,7 @@ def Zexcl(s, bhat, dbhat=0, asimov_only=True, Zcriteria = 1.645, more_info=False
             print('Probability of obtaining a significance (Zexcl) greater than Zcriteria = %s is %s\n' %(Zcriteria, pZcriteria))
         return [Zasimov, Zmean, Zmean_not_neg, Zmedian, Zpmean, pZcriteria]
 
-def ZdiscAsimovCowan(s, b, db=0):
+def ZdiscAsimovCCGV(s, b, db=0):
     '''
     Parameters
     ----------
@@ -514,13 +514,15 @@ def ZdiscAsimovCowan(s, b, db=0):
     References
     ----------
 
+    G. Cowan, K. Cranmer, E. Gross and O. Vitells [arXiv:1007.1727 [physics.data-an]]
+
     G. Cowan [https://www.pp.rhul.ac.uk/~cowan/stat/cowan_slac_4jun12.pdf]
     '''
     if db == 0:
-        ZCowan = np.sqrt(2 * ((s + b) * np.log(1 + s/b) - s))
+        ZCCGV = np.sqrt(2 * ((s + b) * np.log(1 + s/b) - s))
     else:
-        ZCowan = np.sqrt(2 * ((s + b) * np.log(((s + b) * (b + db**2))/(b**2 + (s + b) * db**2)) - (b**2/db**2) * np.log(1 + (s * db**2/(b * (b + db**2))))))
-    return ZCowan
+        ZCCGV = np.sqrt(2 * ((s + b) * np.log(((s + b) * (b + db**2))/(b**2 + (s + b) * db**2)) - (b**2/db**2) * np.log(1 + (s * db**2/(b * (b + db**2))))))
+    return ZCCGV
 
 def ZexclAsimovKM(s, b, db=0):
     '''

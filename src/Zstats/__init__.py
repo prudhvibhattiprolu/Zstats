@@ -1,4 +1,4 @@
-#Python tools to compute the "exact Asimov significance" advocated in arXiv: 2009.***** [physics.data-an] as the standard significance measure for projected exclusions and discovery sensitivities in counting experiments.
+#Python tools to compute the "exact Asimov significance" advocated in arXiv: 2009.07249 [physics.data-an] as the standard significance measure for projected exclusions and discovery sensitivities in counting experiments.
 
 #Main Functions: (More information is given as a docstring to the functions, which can be accessed using the *help* command)
 #Zdisc(s,bhat,dbhat): computes the discovery significance given the Poisson means of signal *s* and background *bhat* events, and Poisson uncertainty *dbhat* of the background. *dbhat* is set to 0 by default.
@@ -73,7 +73,7 @@ def DeltaP(n,m,tau,s,b):
     References
     ----------
 
-    P. N. Bhattiprolu, S. P. Martin, J. D. Wells [arXiv: 2009.***** [physics.data-an]]
+    P. N. Bhattiprolu, S. P. Martin, J. D. Wells [arXiv: 2009.07249 [physics.data-an]]
     '''
     n = float(n)
     m = float(m)
@@ -128,7 +128,7 @@ def pvalue(n, m, tau, s, b, more_info=False):
     References
     ----------
 
-    P. N. Bhattiprolu, S. P. Martin, J. D. Wells [arXiv: 2009.***** [physics.data-an]]
+    P. N. Bhattiprolu, S. P. Martin, J. D. Wells [arXiv: 2009.07249 [physics.data-an]]
     '''
     n = float(n)
     m = float(m)
@@ -181,7 +181,7 @@ def pvalue(n, m, tau, s, b, more_info=False):
                 #Computing with scipy's quad and gammaincc functions
                 pBiint = float((mp.power(tau,m+1)/mp.gamma(m+1))*quad(lambda bb: mp.power(bb,m)*mp.exp(-bb*tau)*sc.gammaincc(n+1,s+bb),0,scipy.inf)[0])#in principle same as pBibyparts, but may have numerical instabilities
 
-                #To compute the integral to arbitary precison, use mpmath's quad (for numerical integration) and inc. gamma functions
+                #To compute the integral to arbitrary precision, use mpmath's quad (for numerical integration) and inc. gamma functions
                 #To do so, uncomment the below two lines and comment out the line somewhere above, starting with *pBiint*, which uses scipy to do the integral*
                 #mp.mp.dps = 15 #This sets the global *decimal precision* of *mpmath*. In case of errors, try increasing this number (which in turn increases the computation time).
                 #pBiint = float((mp.power(tau,m+1)/mp.gamma(m+1))*mp.quad(lambda bb: mp.power(bb,m)*mp.exp(-bb*tau)*mp.gammainc(n+1,s+bb,regularized=True),[0,mp.inf]))
@@ -195,7 +195,7 @@ def pvalue(n, m, tau, s, b, more_info=False):
                 #Computing with scipy's quad and gammaincc functions
                 pBibyparts = float(sc.gammaincc(n+1,s) - (quad(lambda bb: mp.power(s+bb,n)*mp.exp(-(s+bb))*sc.gammaincc(m+1,tau*bb),0,scipy.inf)[0]/mp.gamma(n+1)))#can be inaccurate when n >> b
 
-                #To compute the integral to arbitary precison, use mpmath's quad (for numerical integration) and inc. gamma functions
+                #To compute the integral to arbitrary precision, use mpmath's quad (for numerical integration) and inc. gamma functions
                 #To do so, uncomment the below two lines and comment out the line somewhere above, starting with *pBibyparts*, which uses scipy to do the integral*
                 #mp.mp.dps = 15 #This sets the global *decimal precision* of *mpmath*. In case of errors, try increasing this number (which in turn increases the computation time).
                 #pBibyparts = float(mp.gammainc(n+1,s,regularized=True) - (mp.quad(lambda bb: mp.power(s+bb,n)*mp.exp(-(s+bb))*mp.gammainc(m+1,tau*bb,regularized=True),[0,mp.inf])/mp.gamma(n+1)))
@@ -281,7 +281,7 @@ def Zdisc(s, bhat, dbhat=0, asimov_only=True, Zcriteria=5.0, more_info=False):
     References
     ----------
 
-    P. N. Bhattiprolu, S. P. Martin, J. D. Wells [arXiv: 2009.***** [physics.data-an]]
+    P. N. Bhattiprolu, S. P. Martin, J. D. Wells [arXiv: 2009.07249 [physics.data-an]]
     '''
     #Trading (bhat, Deltabhat) for (m, tau)
     if dbhat != 0:
@@ -415,7 +415,7 @@ def Zexcl(s, bhat, dbhat=0, asimov_only=True, Zcriteria = 1.645, more_info=False
     References
     ----------
 
-    P. N. Bhattiprolu, S. P. Martin, J. D. Wells [arXiv: 2009.***** [physics.data-an]]
+    P. N. Bhattiprolu, S. P. Martin, J. D. Wells [arXiv: 2009.07249 [physics.data-an]]
     '''
     #Trading (bhat, Deltabhat) for (m, tau)
     if dbhat != 0:

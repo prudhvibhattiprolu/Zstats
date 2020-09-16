@@ -1,5 +1,5 @@
 # Zstats package
-### Criteria for projected discovery and exclusion sensitivities of counting experiments (https://arxiv.org/abs/2009.*****)
+### Criteria for projected discovery and exclusion sensitivities of counting experiments (https://arxiv.org/abs/2009.07249)
 ### P. N. Bhattiprolu, S. P. Martin, J. D. Wells
 
 Python tools to compute the **exact Asimov significance** <img src="https://latex.codecogs.com/gif.latex?Z^\textrm{A}"> advocated in Reference [1] as the standard significance measure for projected exclusions and discovery sensitivities in counting experiments, both when the background is known and when it is subject to some uncertainty.
@@ -72,7 +72,7 @@ To illustrate the usage of the code, this repository also has short programs `ma
 
 ## References
 
-[1]: P. N. Bhattiprolu, S. P. Martin, J. D. Wells, “Criteria for projected discovery and exclusion sensitivities of counting experiments,” arXiv: 2009.***** [physics.data-an].
+[1]: P. N. Bhattiprolu, S. P. Martin, J. D. Wells, “Criteria for projected discovery and exclusion sensitivities of counting experiments,” arXiv: 2009.07249 [physics.data-an].
 
 [2]: G. Cowan, K. Cranmer, E. Gross and O. Vitells, “Asymptotic formulae for likelihood-based tests of new physics,” Eur. Phys. J. C 71, 1554 (2011) [arXiv:1007.1727 [physics.data-an]].
 

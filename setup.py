@@ -5,7 +5,7 @@ with open("README.md", "r") as README:
 
 setuptools.setup(
     name="Zstats",
-    version="0.0.1",
+    version="0.0.2",
     author="Prudhvi Bhattiprolu",
     author_email="prudhvibhattiprolu@gmail.com",
     description="Criteria for projected discovery and exclusion sensitivities of counting experiments",

@@ -1,43 +1,63 @@
 #This program prints out data to *.dat files, for Fig. 8 in our paper
 import numpy as np
-from Zstats import Zdisc, Zexcl
+from Zstats import Zdisc
 
-#Fig 8: Discovery case [left panel]
+#WARNING: Each computation, particularly when *asimov_only* is set to False, takes a lot more time when background uncertainty is non-zero
 
-#X-axis
+#And, the computation time increases as s/bhat (*sbyb*) gets smaller, and also when *s* gets larger. Not recommended to run this script on a single cpu if generating data when background uncertainty is non-zero.
 
-Z_array = np.arange(0,5.005,0.005)
-
-#Y-axis
-
-#Set signal and background means
-for (s, b) in [(1, 10), (10, 5)]:
-    #Calculate P(Zdisc > Z)
-    #Known background case
-    temp1 = [Zdisc(s, b, asimov_only=False, Zcriteria=Z)[5] for Z in Z_array]
-
-    #Unknown background case, with dbhat/bhat=0.5
-    temp2 = [Zdisc(s, b, 0.5*b, asimov_only=False, Zcriteria=Z)[5] for Z in Z_array]
-
-    #Printing data to a *.dat file
-    np.savetxt('fig8_disc_s%s_b%s.dat' %(s,b),np.transpose([Z_array, temp1, temp2]),delimiter='\t',header='Z \t dbhat/bhat=0 \t dbhat/bhat=0.5',comments='#Fig8: The probability of obtaining a discovery significance Zdisc > Z in a large number of pseudo-experiments, when s=%s, and b=%s\n#' %(s,b))
-
-#Fig 8: Exclusion case [right panel]
+#For faster computation, significantly reduce the number of points in *s_array* and/or run multiple batch jobs on a compute cluster.
 
 #X-axis
 
-Z_array = np.arange(0,1.8+0.005,0.005)
+s_array = np.append(np.arange(0.10,2.00,0.01),np.arange(2.00,10.02,0.02))
+s_array = np.append(s_array,np.arange(10.05,100.05,0.05))
+
+#Fig 8: Known background case [left panel]
+
+#Set fractional uncertainty in the background
+dbbyb=0
 
 #Y-axis
 
-#Set signal and background means
-for (s, b) in [(1, 25), (5, 5)]:
-    #Calculate P(Zexcl > Z)
-    #Known background case
-    temp1 = [Zexcl(s, b, asimov_only=False, Zcriteria=Z)[5] for Z in Z_array]
+#Calculate P(Zdisc > 5.0) for discovery case
+#*Zcriteria* is set to 5.0 by default for function *Zdisc*
 
-    #Unknown background case, with dbhat/bhat=0.5
-    temp2 = [Zexcl(s, b, 0.5*b, asimov_only=False, Zcriteria=Z)[5] for Z in Z_array]
+#s/bhat=2
+temp1 = [Zdisc(s,s/2,dbbyb*s/2,asimov_only=False)[5] for s in s_array]
 
-    #Printing data to a *.dat file
-    np.savetxt('fig8_excl_s%s_b%s.dat' %(s,b),np.transpose([Z_array, temp1, temp2]),delimiter='\t',header='Z \t dbhat/bhat=0 \t dbhat/bhat=0.5',comments='#Fig8: The probability of obtaining an exclusion significance Zexcl > Z in a large number of pseudo-experiments, when s=%s, and b=%s\n#' %(s,b))
+#s/bhat=5
+temp2 = [Zdisc(s,s/5,dbbyb*s/5,asimov_only=False)[5] for s in s_array]
+
+#s/bhat=10
+temp3 = [Zdisc(s,s/10,dbbyb*s/10,asimov_only=False)[5] for s in s_array]
+
+#s/bhat=50
+temp4 = [Zdisc(s,s/50,dbbyb*s/50,asimov_only=False)[5] for s in s_array]
+
+#Printing data to a *.dat file
+np.savetxt('fig8_disc_dbbyb%s.dat' %(dbbyb),np.transpose([s_array, temp1, temp2, temp3, temp4]),delimiter='\t',header='s \t s/bhat=2 \t s/bhat=5 \t s/bhat=10 \t s/bhat=50',comments='#Fig8: The probability of obtaining a significance Zdisc > 5 in a large number of pseudo-experiments generated for the discovery case, when dbhat/bhat=%s\n#' %(dbbyb))
+
+#Fig 8: Uncertain background case, with dbhat/bhat=0.5 [right panel]
+
+#Set fractional uncertainty in the background
+dbbyb=0.5
+
+#Y-axis
+
+#Calculate P(Zdisc > 5.0) for discovery case
+
+#s/bhat=2
+temp1 = [Zdisc(s,s/2,dbbyb*s/2,asimov_only=False)[5] for s in s_array]
+
+#s/bhat=5
+temp2 = [Zdisc(s,s/5,dbbyb*s/5,asimov_only=False)[5] for s in s_array]
+
+#s/bhat=10
+temp3 = [Zdisc(s,s/10,dbbyb*s/10,asimov_only=False)[5] for s in s_array]
+
+#s/bhat=50
+temp4 = [Zdisc(s,s/50,dbbyb*s/50,asimov_only=False)[5] for s in s_array]
+
+#Printing data to a *.dat file
+np.savetxt('fig8_disc_dbbyb%s.dat' %(dbbyb),np.transpose([s_array, temp1, temp2, temp3, temp4]),delimiter='\t',header='s \t s/bhat=2 \t s/bhat=5 \t s/bhat=10 \t s/bhat=50',comments='#Fig8: The probability of obtaining a significance Zdisc > 5 in a large number of pseudo-experiments generated for the discovery case, when dbhat/bhat=%s\n#' %(dbbyb))

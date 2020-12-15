@@ -1,39 +1,43 @@
 #This program prints out data to *.dat files, for Fig. 2 in our paper
 import numpy as np
-from Zstats import Zdisc, Zexcl
-
-#WARNING: Each computation, particularly when *asimov_only* is set to False, takes a lot more time when background uncertainty is non-zero
-
-#And, the computation time increases as s/bhat (*sbyb*) gets smaller, and also when *s* gets larger. Not recommended to run this script on a single cpu as is.
-
-#For faster computation, significantly reduce the number of points in *s_array* and/or run multiple batch jobs on a compute cluster. 
-
-#X-axis 
-
-s_array = np.append(np.arange(1.00,2.00,0.01),np.arange(2.00,10.02,0.02))
-s_array = np.append(s_array,np.arange(10.05,100.05,0.05))
+from Zstats import Zdisc, Zexcl, ZdiscAsimovCCGV, ZexclAsimovKM
 
 #Fig 2: Discovery case [left panel]
 
+#X-axis 
+
+s_arraya = np.arange(0,2.5+0.001,0.001)
+
 #Y-axis
 
-#set fractional background uncertainty
-dbbyb=0.2
+#set background mean
+ba=10**(-6)
 
-for sbyb in [2, 10, 100]:
-    #Calculate Asimov Z, Mean Z, Asimov Z for fixed s/bhat
-    temp = np.transpose([Zdisc(s,s/sbyb,dbbyb*s/sbyb,asimov_only=False) for s in s_array])
+#Computing Asimov Z, Mean Z, and Median Z
+temp1 = np.transpose([Zdisc(s, ba, asimov_only=0) for s in s_arraya])
 
-    #Printing data to a *.dat file
-    np.savetxt('fig2_disc_sbyb%s.dat' %(sbyb),np.transpose([s_array, temp[0], temp[1], temp[3]]),delimiter='\t',header='s \t Asimov Z \t Mean Z \t Median Z',comments='#Fig2: The exact Asimov, mean, and median expected significances for discovery, when s/bhat=%s, and dbhat/bhat=%s\n#' %(sbyb,dbbyb))
+#Computing CCGV Z
+temp2 = [ZdiscAsimovCCGV(s, ba) for s in s_arraya]
+
+#Printing data to a *.dat file
+np.savetxt('fig2_disc_b0.dat',np.transpose([s_arraya, temp1[0], temp1[1], temp1[3], temp2]),delimiter='\t',header='s \t Asimov Z \t Mean Z \t Median Z \t CCGV Z',comments='#Fig2: Expected significances for discovery for an extremely small background mean b=%s\n#' %(ba))
 
 #Fig 2: Exclusion case [right panel]
 
+#X-axis 
+
+s_arrayb = np.arange(0,12+0.01,0.01)
+
 #Y-axis
 
-for sbyb in [5, 0.5]:
-    #Calculate Asimov Z, Mean Z, Asimov Z for fixed s/bhat
-    temp = np.transpose([Zexcl(s,s/sbyb,dbbyb*s/sbyb,asimov_only=False) for s in s_array])
+#set background mean
+bb=0
 
-    #Printing data to a *.dat file
-    np.savetxt('fig2_excl_sbyb%s.dat' %(sbyb),np.transpose([s_array, temp[0], temp[1], temp[3]]),delimiter='\t',header='s \t Asimov Z \t Mean Z \t Median Z',comments='#Fig2: The exact Asimov, mean, and median expected significances for exclusion, when s/bhat=%s, and dbhat/bhat=%s\n#' %(sbyb,dbbyb))
+#Computing Asimov Z, Mean Z, and Median Z
+temp1 = np.transpose([Zexcl(s, bb, asimov_only=0) for s in s_arrayb])
+
+#Computing KM Z
+temp2 = [ZexclAsimovKM(s, bb) for s in s_arrayb]
+
+#Printing data to a *.dat file
+np.savetxt('fig2_excl_b0.dat',np.transpose([s_arrayb, temp1[0], temp1[1], temp1[3], temp2]),delimiter='\t',header='s \t Asimov Z \t Mean Z \t Median Z \t KM Z',comments='#Fig2: Expected significances for exclusion for zero background mean\n#')

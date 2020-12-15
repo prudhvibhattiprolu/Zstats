@@ -2,34 +2,42 @@
 import numpy as np
 from Zstats import Zdisc, Zexcl
 
-#X-axis 
+#Fig 5: Discovery case [left panel]
 
-dbbyb_array=np.arange(0,0.5+0.005,0.005)
+#X-axis
 
-#Fig 2: Discovery case [left panel]
-
-#Y-axis
-
-#Set signal and background means
-s=24
-b=10
-
-#Calculate Asimov Z, Mean Z, Asimov Z
-temp = np.transpose([Zdisc(s,b,dbbyb*b,asimov_only=False) for dbbyb in dbbyb_array])
-
-#Printing data to a *.dat file
-np.savetxt('fig5_disc.dat',np.transpose([dbbyb_array, temp[0], temp[1], temp[3]]),delimiter='\t',header='s \t Asimov Z \t Mean Z \t Median Z',comments='#Fig5: The exact Asimov, mean, and median expected significances for discovery, when s=%s, and bhat=%s\n#' %(s,b))
-
-#Fig 2: Exclusion case [right panel]
+b_arraya = np.append(np.arange(0.1,2.00,0.01),np.arange(2.00,10.02,0.02))
+b_arraya = np.append(b_arraya,np.arange(10.05,30.05,0.05))
 
 #Y-axis
 
-#Set signal and background means
-s=12
-b=20
+#set signal mean
+s=6
 
-#Calculate Asimov Z, Mean Z, Asimov Z
-temp = np.transpose([Zexcl(s,b,dbbyb*b,asimov_only=False) for dbbyb in dbbyb_array])
+#Calculate Z(16%, 50%, and 84% quantiles of the number of pseudo-experiments n)
+temp1 = [Zdisc(s, b, asimov_only=False, quantile=0.16)[3] for b in b_arraya]
+temp2 = [Zdisc(s, b, asimov_only=False, quantile=0.50)[3] for b in b_arraya]
+temp3 = [Zdisc(s, b, asimov_only=False, quantile=0.84)[3] for b in b_arraya]
 
 #Printing data to a *.dat file
-np.savetxt('fig5_excl.dat',np.transpose([dbbyb_array, temp[0], temp[1], temp[3]]),delimiter='\t',header='s \t Asimov Z \t Mean Z \t Median Z',comments='#Fig5: The exact Asimov, mean, and median expected significances for exclusion, when s=%s, and bhat=%s\n#' %(s,b))
+np.savetxt('fig5_quantiles_disc_s%s.dat' %(s),np.transpose([b_arraya, temp1, temp2, temp3]),delimiter='\t',header='b \t 16% quantile \t 50% quantile (Median Z) \t 84% quantile',comments='#Fig5: The 16%%, 50%%, and 84%% quantile lines for the number of pseudo-experiments n for the discovery case when s=%s\n#' %(s))
+
+#Fig 5: Exclusion case [right panel]
+
+#X-axis
+
+b_arrayb = np.append(np.arange(0.1,2.00,0.01),np.arange(2.00,10.02,0.02))
+b_arrayb = np.append(b_arrayb,np.arange(10.05,100.05,0.05))
+
+#Y-axis
+
+#set signal mean
+s=6
+
+#Calculate Z(16%, 50%, and 84% quantiles of the number of pseudo-experiments n)
+temp1 = [Zexcl(s, b, asimov_only=False, quantile=0.16)[3] for b in b_arrayb]
+temp2 = [Zexcl(s, b, asimov_only=False, quantile=0.50)[3] for b in b_arrayb]
+temp3 = [Zexcl(s, b, asimov_only=False, quantile=0.84)[3] for b in b_arrayb]
+
+#Printing data to a *.dat file
+np.savetxt('fig5_quantiles_excl_s%s.dat' %(s),np.transpose([b_arrayb, temp1, temp2, temp3]),delimiter='\t',header='b \t 16% quantile \t 50% quantile (Median Z) \t 84% quantile',comments='#Fig5: The 16%%, 50%%, and 84%% quantile lines for the number of pseudo-experiments n for the exclusion case when s=%s\n#' %(s))

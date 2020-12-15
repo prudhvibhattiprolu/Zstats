@@ -1,63 +1,52 @@
 #This program prints out data to *.dat files, for Fig. 6 in our paper
 import numpy as np
-from Zstats import Zdisc
-
-#WARNING: Each computation, particularly when *asimov_only* is set to False, takes a lot more time when background uncertainty is non-zero
-
-#And, the computation time increases as s/bhat (*sbyb*) gets smaller, and also when *s* gets larger. Not recommended to run this script on a single cpu if generating data when background uncertainty is non-zero.
-
-#For faster computation, significantly reduce the number of points in *s_array* and/or run multiple batch jobs on a compute cluster.
+from Zstats import DeltaP
 
 #X-axis
 
-s_array = np.append(np.arange(0.10,2.00,0.01),np.arange(2.00,10.02,0.02))
-s_array = np.append(s_array,np.arange(10.05,100.05,0.05))
+n_array = np.arange(0,31,1)
 
-#Fig 6: Known background case [left panel]
+#Fig 6: Discovery case [left panel]
 
-#Set fractional uncertainty in the background
-dbbyb=0
-
-#Y-axis
-
-#Calculate P(Zdisc > 5.0) for discovery case
-#*Zcriteria* is set to 5.0 by default for function *Zdisc*
-
-#s/bhat=2
-temp1 = [Zdisc(s,s/2,dbbyb*s/2,asimov_only=False)[5] for s in s_array]
-
-#s/bhat=5
-temp2 = [Zdisc(s,s/5,dbbyb*s/5,asimov_only=False)[5] for s in s_array]
-
-#s/bhat=10
-temp3 = [Zdisc(s,s/10,dbbyb*s/10,asimov_only=False)[5] for s in s_array]
-
-#s/bhat=50
-temp4 = [Zdisc(s,s/50,dbbyb*s/50,asimov_only=False)[5] for s in s_array]
-
-#Printing data to a *.dat file
-np.savetxt('fig6_disc_dbbyb%s.dat' %(dbbyb),np.transpose([s_array, temp1, temp2, temp3, temp4]),delimiter='\t',header='s \t s/bhat=2 \t s/bhat=5 \t s/bhat=10 \t s/bhat=50',comments='#Fig6: The probability of obtaining a significance Zdisc > 5 in a large number of pseudo-experiments generated for the discovery case, when dbhat/bhat=%s\n#' %(dbbyb))
-
-#Fig 6: Uncertain background case, with dbhat/bhat=0.5 [right panel]
-
-#Set fractional uncertainty in the background
-dbbyb=0.5
+#Set signal and background means
+s=5
+b=5
 
 #Y-axis
 
-#Calculate P(Zdisc > 5.0) for discovery case
+#Calculate probabilities *DeltaP(n,m,tau,s,b)* as a function of event count *n* in the signal region, for a fixed bhat = m/tau
+#For more information about DeltaP, use the Python help function *help(DeltaP)*
 
-#s/bhat=2
-temp1 = [Zdisc(s,s/2,dbbyb*s/2,asimov_only=False)[5] for s in s_array]
+#tau=Infinity
+temp1 = [DeltaP(n,np.inf,np.inf,s,b) for n in n_array]
 
-#s/bhat=5
-temp2 = [Zdisc(s,s/5,dbbyb*s/5,asimov_only=False)[5] for s in s_array]
+#tau=3
+temp2 = [DeltaP(n,b*3,3,s,b) for n in n_array]
 
-#s/bhat=10
-temp3 = [Zdisc(s,s/10,dbbyb*s/10,asimov_only=False)[5] for s in s_array]
-
-#s/bhat=50
-temp4 = [Zdisc(s,s/50,dbbyb*s/50,asimov_only=False)[5] for s in s_array]
+#tau=1
+temp3 = [DeltaP(n,b*1,1,s,b) for n in n_array]
 
 #Printing data to a *.dat file
-np.savetxt('fig6_disc_dbbyb%s.dat' %(dbbyb),np.transpose([s_array, temp1, temp2, temp3, temp4]),delimiter='\t',header='s \t s/bhat=2 \t s/bhat=5 \t s/bhat=10 \t s/bhat=50',comments='#Fig6: The probability of obtaining a significance Zdisc > 5 in a large number of pseudo-experiments generated for the discovery case, when dbhat/bhat=%s\n#' %(dbbyb))
+np.savetxt('fig6_disc.dat',np.transpose([n_array, temp1, temp2, temp3]),delimiter='\t',header='n \t tau=Infinity \t tau=3 \t tau=1',comments='#Fig6: Probabilities DeltaP(n,m,tau,s) for discovery, when s=%s, and b=%s\n#' %(s,b))
+
+#Fig 6: Exclusion case [right panel]
+
+#Set signal and background means
+s=0
+b=10
+
+#Y-axis
+
+#Calculate probabilities *DeltaP(n,m,tau,s,b)* as a function of event count *n* in the signal region, for a fixed bhat = m/tau
+
+#tau=Infinity
+temp1 = [DeltaP(n,np.inf,np.inf,s,b) for n in n_array]
+
+#tau=3
+temp2 = [DeltaP(n,b*3,3,s,b) for n in n_array]
+
+#tau=1
+temp3 = [DeltaP(n,b*1,1,s,b) for n in n_array]
+
+#Printing data to a *.dat file
+np.savetxt('fig6_excl.dat',np.transpose([n_array, temp1, temp2, temp3]),delimiter='\t',header='n \t tau=Infinity \t tau=3 \t tau=1',comments='#Fig6: Probabilities DeltaP(n,m,tau,0) for exclusion, when s=%s, and b=%s\n#' %(s,b))

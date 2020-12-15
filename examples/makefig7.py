@@ -1,57 +1,35 @@
 #This program prints out data to *.dat files, for Fig. 7 in our paper
 import numpy as np
-from Zstats import Zexcl
+from Zstats import Zdisc, Zexcl
 
-#WARNING: Each computation, particularly when *asimov_only* is set to False, takes a lot more time when background uncertainty is non-zero
+#X-axis 
 
-#And, the computation time increases as s/bhat (*sbyb*) gets smaller, and also when *s* gets larger. Not recommended to run this script on a single cpu if generating data when background uncertainty is non-zero.
+dbbyb_array=np.arange(0,0.5+0.005,0.005)
 
-#For faster computation, significantly reduce the number of points in *s_array* and/or run multiple batch jobs on a compute cluster.
-
-#X-axis
-
-s_array = np.append(np.arange(1.00,2.00,0.01),np.arange(2.00,10.02,0.02))
-s_array = np.append(s_array,np.arange(10.05,100.05,0.05))
-
-#Fig 7: Known background case [left panel]
-
-#Set fractional uncertainty in the background
-dbbyb=0
+#Fig 7: Discovery case [left panel]
 
 #Y-axis
 
-#Calculate P(Zexcl > 1.645) for exclusion case
-#*Zcriteria* is set to 1.645 by default for function *Zexcl*
+#Set signal and background means
+s=24
+b=10
 
-#s/bhat=0.1
-temp1 = [Zexcl(s,s/0.1,dbbyb*s/0.1,asimov_only=False)[5] for s in s_array]
-
-#s/bhat=1
-temp2 = [Zexcl(s,s/1,dbbyb*s/1,asimov_only=False)[5] for s in s_array]
-
-#s/bhat=10
-temp3 = [Zexcl(s,s/10,dbbyb*s/10,asimov_only=False)[5] for s in s_array]
+#Calculate Asimov Z, Mean Z, Median Z
+temp = np.transpose([Zdisc(s,b,dbbyb*b,asimov_only=False) for dbbyb in dbbyb_array])
 
 #Printing data to a *.dat file
-np.savetxt('fig7_excl_dbbyb%s.dat' %(dbbyb),np.transpose([s_array, temp1, temp2, temp3]),delimiter='\t',header='s \t s/bhat=0.1 \t s/bhat=1 \t s/bhat=10',comments='#Fig7: The probability of obtaining a significance Zexcl > 1.645 in a large number of pseudo-experiments generated for the exclusion case, when dbhat/bhat=%s\n#' %(dbbyb))
+np.savetxt('fig7_disc.dat',np.transpose([dbbyb_array, temp[0], temp[1], temp[3]]),delimiter='\t',header='s \t Asimov Z \t Mean Z \t Median Z',comments='#Fig7: The exact Asimov, mean, and median expected significances for discovery, when s=%s, and bhat=%s\n#' %(s,b))
 
-#Fig 7: Uncertain background case, with dbhat/bhat=0.5 [right panel]
-
-#Set fractional uncertainty in the background
-dbbyb=0.5
+#Fig 7: Exclusion case [right panel]
 
 #Y-axis
 
-#Calculate P(Zexcl > 1.645) for exclusion case
+#Set signal and background means
+s=12
+b=20
 
-#s/bhat=0.1
-temp1 = [Zexcl(s,s/0.1,dbbyb*s/0.1,asimov_only=False)[5] for s in s_array]
-
-#s/bhat=1
-temp2 = [Zexcl(s,s/1,dbbyb*s/1,asimov_only=False)[5] for s in s_array]
-
-#s/bhat=10
-temp3 = [Zexcl(s,s/10,dbbyb*s/10,asimov_only=False)[5] for s in s_array]
+#Calculate Asimov Z, Mean Z, Median Z
+temp = np.transpose([Zexcl(s,b,dbbyb*b,asimov_only=False) for dbbyb in dbbyb_array])
 
 #Printing data to a *.dat file
-np.savetxt('fig7_excl_dbbyb%s.dat' %(dbbyb),np.transpose([s_array, temp1, temp2, temp3]),delimiter='\t',header='s \t s/bhat=0.1 \t s/bhat=1 \t s/bhat=10',comments='#Fig7: The probability of obtaining a significance Zexcl > 1.645 in a large number of pseudo-experiments generated for the exclusion case, when dbhat/bhat=%s\n#' %(dbbyb))
+np.savetxt('fig7_excl.dat',np.transpose([dbbyb_array, temp[0], temp[1], temp[3]]),delimiter='\t',header='s \t Asimov Z \t Mean Z \t Median Z',comments='#Fig7: The exact Asimov, mean, and median expected significances for exclusion, when s=%s, and bhat=%s\n#' %(s,b))

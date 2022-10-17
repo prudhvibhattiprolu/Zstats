@@ -319,7 +319,7 @@ computes the Feldman-Cousins experimental sensitivity at confidence level `CL`
 To illustrate the usage of the code, this repository also has:
 
 * short programs at `examples/2009.07249/makefig*.py` that produce the data in each of the 10 figures in Reference [1]
-* some code snippets in a Python notebook at `examples/2209._____/makefigs.ipynb` that generate the data in each of the figures in Reference [2] 
+* some code snippets in a Python notebook at `examples/2210.07735/makefigs.ipynb` that generate the data in each of the figures in Reference [2] 
 
 <!---
 **Note: Each computation with functions `Zdisc`, `Zexcl`, particularly when `asimov_only` is set to `False`, takes a lot more time for the uncertain background case.**

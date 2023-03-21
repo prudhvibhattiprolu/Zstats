@@ -112,7 +112,7 @@ def LifetimeExclExp_Unc0(b, eps, exposure, Np, CL=0.9, CLExclbool=True):
                 p -> \overline nu +  K^+ decay mode:
                 ------------------------------------
 
-                (b/Mton-year, eps) = {(2.5, 0.55), (1.5, 0.26)}
+                (b/Mton-year, eps) = {(1.0, 0.369), (1.5, 0.26)}
 
         THEIA-25/100:
 
@@ -213,7 +213,7 @@ def LifetimeDiscExp_Unc0(b, eps, exposure, Np, Z=3, CLDiscbool=True, s_min=1):
                 p -> \overline nu +  K^+ decay mode:
                 ------------------------------------
 
-                (b/Mton-year, eps) = {(2.5, 0.55), (1.5, 0.26)}
+                (b/Mton-year, eps) = {(1.0, 0.369), (1.5, 0.26)}
 
         THEIA-25/100:
 
@@ -355,7 +355,7 @@ def RuntimeExclExp_Unc0(proton_lifetime, b, eps, Nkton, Np, CL=0.9, CLExclbool=T
                 p -> \overline nu +  K^+ decay mode:
                 ------------------------------------
 
-                (b/Mton-year, eps) = {(2.5, 0.55), (1.5, 0.26)}
+                (b/Mton-year, eps) = {(1.0, 0.369), (1.5, 0.26)}
 
         THEIA-25/100:
 
@@ -459,7 +459,7 @@ def RuntimeDiscExp_Unc0(proton_lifetime, b, eps, Nkton, Np, Z=3, CLDiscbool=True
                 p -> \overline nu +  K^+ decay mode:
                 ------------------------------------
 
-                (b/Mton-year, eps) = {(2.5, 0.55), (1.5, 0.26)}
+                (b/Mton-year, eps) = {(1.0, 0.369), (1.5, 0.26)}
 
         THEIA-25/100:
 

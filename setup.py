@@ -33,7 +33,7 @@ ProtonDecayTools = Pybind11Extension(
 
 setup(
     name="Zstats",
-    version="2.0.0",
+    version="2.0.1",
     author="Prudhvi Bhattiprolu",
     author_email="prudhvibhattiprolu@gmail.com",
     description="Statistical measures for discovery and exclusion of new physics signals at (multi-channel) counting experiments",
